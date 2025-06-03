@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
+import logo from './assets/fullLogo.png'
+import icon from './assets/icon.png'
 
 const DashboardLayout = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
@@ -73,7 +75,7 @@ const DashboardLayout = () => {
           style={{ height: !isMobile ? '67px' : '67px' }}
         >
         <div className="d-flex align-items-center">
-          <img src="./src/assets/icon.png" alt="Logo" className="me-2" style={{ width: '30px', height: '30px'}} />
+          <img src={icon} alt="icon" className="me-2" style={{ width: '30px', height: '30px'}} />
           <h5 className="m-0">Admin Panel</h5>
         </div>
           {isMobile && sidebarOpen && (
@@ -263,7 +265,7 @@ const DashboardLayout = () => {
             ☰
           </button>
           <span className="navbar-brand mb-0 h1">
-            <img src="./src/assets/fullLogo.png" alt="Logo" className="me-2" style={{ width: '150px', height: '40px'}} />
+            <img src={logo} alt="Logo" className="me-2" style={{ width: '150px', height: '40px'}} />
             {/* Dashboard */}
           </span>
         </nav>
