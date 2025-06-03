@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import logo from './assets/fullLogo.png'
-import icon from './assets/icon.png'
+import logo from '../assets/fullLogo.png'
+import icon from '../assets/icon.png'
 
 const DashboardLayout = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
