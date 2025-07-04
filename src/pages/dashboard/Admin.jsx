@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Table, Button, Modal, Form } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
 const Admin = () => {
   const [admins, setAdmins] = useState([
@@ -39,7 +40,7 @@ const Admin = () => {
     setAdminToDelete(admin)
     setShowDeleteModal(true)
   }
-
+  const navigate = useNavigate()
   return (
     <div>
       <h2>Admin Panel</h2>
@@ -69,6 +70,14 @@ const Admin = () => {
               <td>{admin.email}</td>
               <td>{admin.role}</td>
               <td>
+               <Button
+                  variant="success"
+                  size="sm"
+                  className="me-2"
+                  onClick={() => navigate(`/dashboard/admin-profile/${admin.id}`, { state: { admin } })}
+                >
+                  View Profile
+                </Button> 
                 {/* Edit functionality could go here */}
                 <Button variant="danger" size="sm" onClick={() => confirmDelete(admin)}>
                   Delete

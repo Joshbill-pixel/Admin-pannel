@@ -132,7 +132,83 @@ const DashboardLayout = () => {
               <i className="bi bi-ticket-detailed me-2"></i> Ticketing
             </NavLink>
           </li>
+         
+         <li className="nav-item">
+            <NavLink
+              to="/dashboard/manage-withdraw"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? ' active fw-bold text-black' : ''} ${darkMode ? 'text-white' : ''}`
+              }
+              style={{
+                color: '#0d6efd',
+              }}
+              onClick={() => isMobile && setSidebarOpen(false)}
+            >
+              <i className="bi bi-cash-coin me-2"></i> Manage Withdrawals
+            </NavLink>
+          </li>
+            
+          <li className="nav-item">
+            <NavLink
+              to="/dashboard/manage-staking"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? ' active fw-bold text-black' : ''} ${darkMode ? 'text-white' : ''}`
+              }
+              style={{
+                color: '#0d6efd',
+              }}
+              onClick={() => isMobile && setSidebarOpen(false)}
+            >
+              <i className="bi bi-graph-up-arrow me-2"></i> Manage Staking
+            </NavLink>
+          </li>
           
+          <li className="nav-item">
+            <NavLink
+              to="/dashboard/manage-task"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? ' active fw-bold text-black' : ''} ${darkMode ? 'text-white' : ''}`
+              }
+              style={{
+                color: '#0d6efd',
+              }}
+              onClick={() => isMobile && setSidebarOpen(false)}
+            >
+              <i className="bi bi-check2-square me-2"></i> Task Management
+            </NavLink>
+          </li>
+          
+          <li className="nav-item">
+            <NavLink
+              to="/dashboard/reports"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? ' active fw-bold text-black' : ''} ${darkMode ? 'text-white' : ''}`
+              }
+              style={{
+                color: '#0d6efd',
+              }}
+              onClick={() => isMobile && setSidebarOpen(false)}
+            >
+              <i className="bi bi-bar-chart-line-fill me-2"></i> Reports
+            </NavLink>
+          </li>
+          
+          <li className="nav-item">
+            <NavLink
+              to="/dashboard/maintenance"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? ' active fw-bold text-black' : ''} ${darkMode ? 'text-white' : ''}`
+              }
+              style={{
+                color: '#0d6efd',
+              }}
+              onClick={() => isMobile && setSidebarOpen(false)}
+            >
+              <i className="bi bi-wrench-adjustable-circle me-2"></i> Maintenance
+
+            </NavLink>
+          </li>
+
           <li className="nav-item">
             <NavLink
               to="/dashboard/admin"
@@ -144,7 +220,7 @@ const DashboardLayout = () => {
               }}
               onClick={() => isMobile && setSidebarOpen(false)}
             >
-              <i className="bi bi-ticket-detailed me-2"></i> Admin
+              <i className="bi bi-person-gear me-2"></i> Admin
             </NavLink>
           </li>
       

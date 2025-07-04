@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Table, Button, Modal, Form, Row, Col, Card } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
 const initialUsers = [
   { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'User', wallet: '', username: '', password: '', photo: '' },
@@ -32,7 +33,7 @@ const Users = () => {
     setUsers(users.map(user => user.id === editingUser.id ? editingUser : user))
     setShowModal(false)
   }
-
+  const navigate = useNavigate()
   return (
     <div>
       <h2>User Management</h2>
@@ -64,31 +65,66 @@ const Users = () => {
               </td>
             </tr>
           ) : (
-            users.map(({ id, name, email, role }, index) => (
-              <tr key={id}>
-                <td>{index + 1}</td>
-                <td>{name}</td>
-                <td>{email}</td>
-                <td>{role}</td>
-                <td>
-                  <Button
+            users.map(({ id, name, email, role }, index) => {
+              const isSelected = editingUser?.id === id
+
+              return (
+                <tr
+                  key={id}
+                  style={{ cursor: 'pointer', backgroundColor: isSelected ? '#f0f0f0' : 'transparent' }}
+                  onClick={() => setEditingUser(users.find(u => u.id === id))}
+                >
+                  <td>{index + 1}</td>
+                  <td>
+                    {name}
+                    {isSelected && (
+                      <Button
+                        variant="success"
+                        size="sm"
+                        style={{
+                          marginLeft: '10px',
+                        }}
+                        onClick={() =>
+                          navigate(`/dashboard/user-profile/${id}`, {
+                            state: { user: users.find(u => u.id === id) },
+                          })
+                        }
+                      >
+                        View Profile
+                      </Button>
+                    )}
+                  </td>
+                  <td>{email}</td>
+                  <td>{role}</td>
+                  <td>
+                    {/* {isSelected && (
+                      <Button
+                        variant="info"
+                        size="sm"
+                        onClick={() =>
+                          navigate(`/dashboard/user-profile/${id}`, {
+                            state: { user: users.find(u => u.id === id) },
+                          })
+                        }
+                      >
+                        View Profile
+                      </Button>
+                    )} */}
+                    <Button
                     variant="warning"
                     size="sm"
-                    onClick={() => handleEdit(users.find(u => u.id === id))}
+                    onClick={() => handleEdit(users.find((u) => u.id === id))}
                     className="me-2"
                   >
                     Edit
                   </Button>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => handleDelete(id)}
-                  >
+                  <Button variant="danger" size="sm" onClick={() => handleDelete(id)}>
                     Delete
                   </Button>
-                </td>
-              </tr>
-            ))
+                  </td>
+                </tr>
+              )
+            })
           )}
         </tbody>
       </Table>
