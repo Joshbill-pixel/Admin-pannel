@@ -50,7 +50,7 @@ const UsersProfile = () => {
       <Card className="p-4 shadow-sm">
         <Form>
           {Object.entries({
-            id: 'Public ID',
+            userId: 'Public ID',
             username: 'Username',
             password: 'Password',
             referralCode: 'Referral Code',
@@ -89,7 +89,7 @@ const UsersProfile = () => {
                   !editMode ||
                   key === 'solWalletAddress' ||
                   key === 'solPrivateKey' ||
-                  key === 'id' ||
+                  key === 'userId' ||
                   key === 'username'
                 }
               />

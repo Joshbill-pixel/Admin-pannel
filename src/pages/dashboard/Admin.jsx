@@ -6,12 +6,14 @@ const Admin = () => {
   const [admins, setAdmins] = useState([
     {
       id: 1,
+      adminId: 'ADM001',
       username: 'alicej',
       role: 'Super Admin',
       createdAt: new Date().toLocaleString(),
     },
     {
       id: 2,
+      adminId: 'ADM002',
       username: 'bobsmith',
       role: 'Admin',
       createdAt: new Date().toLocaleString(),
@@ -44,11 +46,13 @@ const Admin = () => {
 
     const newId = admins.length + 1
     const createdAt = new Date().toLocaleString()
+    const adminId = `ADM00${newId}`
 
     setAdmins([
       ...admins,
       {
-        id: newId,
+        id: 1,
+        adminId,
         username: newAdmin.username,
         role: newAdmin.role,
         createdAt,
@@ -86,7 +90,8 @@ const Admin = () => {
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>#</th>
+            <th>Admin ID</th>
             <th>Username</th>
             <th>Role</th>
             <th>Created At</th>
@@ -97,6 +102,7 @@ const Admin = () => {
           {admins.map((admin) => (
             <tr key={admin.id}>
               <td>{admin.id}</td>
+              <td>{admin.adminId}</td>
               <td>{admin.username}</td>
               <td>{admin.role}</td>
               <td>{admin.createdAt}</td>

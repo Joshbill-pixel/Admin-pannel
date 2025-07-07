@@ -3,9 +3,9 @@ import { Table, Button, Modal, Form, Row, Col, Card } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
 const initialUsers = [
-  { id: 1, username: 'alicejohnson', role: 'User', wallet: '', password: '', photo: '', createdAt: '2025-07-01T10:00' },
-  { id: 2, username: 'bobsmith', role: 'Admin', wallet: '', password: '', photo: '', createdAt: '2025-07-02T11:30' },
-  { id: 3, username: 'charliebrown', role: 'User', wallet: '', password: '', photo: '', createdAt: '2025-07-03T09:45' },
+  { id: 1, userId: 'USR001', username: 'alicejohnson', role: 'User', wallet: '', password: '', photo: '', createdAt: '2025-07-01T10:00' },
+  { id: 2, userId: 'USR002', username: 'bobsmith', role: 'Admin', wallet: '', password: '', photo: '', createdAt: '2025-07-02T11:30' },
+  { id: 3, userId: 'USR003', username: 'charliebrown', role: 'User', wallet: '', password: '', photo: '', createdAt: '2025-07-03T09:45' },
 ]
 
 const Users = () => {
@@ -53,6 +53,7 @@ const Users = () => {
         <thead>
           <tr>
             <th>#</th>
+            <th>User ID</th>
             <th>Username</th>
             <th>Role</th>
             <th>Created At</th>
@@ -62,12 +63,12 @@ const Users = () => {
         <tbody>
           {users.length === 0 ? (
             <tr>
-              <td colSpan="5" className="text-center">
+              <td colSpan="6" className="text-center">
                 No users found.
               </td>
             </tr>
           ) : (
-            users.map(({ id, username, role, createdAt }, index) => {
+            users.map(({ id, userId, username, role, createdAt }, index) => {
               const isSelected = editingUser?.id === id
 
               return (
@@ -77,6 +78,7 @@ const Users = () => {
                   onClick={() => setEditingUser(users.find(u => u.id === id))}
                 >
                   <td>{index + 1}</td>
+                  <td>{userId}</td>
                   <td>
                     {username}
                     {isSelected && (

@@ -42,7 +42,7 @@ const AdminsProfile = () => {
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={3}>ID</Form.Label>
             <Col sm={9}>
-              <Form.Control plaintext readOnly defaultValue={formData.id} />
+              <Form.Control plaintext readOnly defaultValue={formData.adminId} />
             </Col>
           </Form.Group>
 

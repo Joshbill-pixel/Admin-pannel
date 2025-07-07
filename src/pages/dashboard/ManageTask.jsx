@@ -4,21 +4,27 @@ import { Card, Button, Modal, Form, Table, Row, Col } from 'react-bootstrap'
 const initialTasks = [
   {
     id: 1,
+    userId: 'USR001',
+    postUrl: 'https://example.com/post1',
     title: 'Invite 5 Users',
     description: 'Invite 5 new users to the platform',
     reward: 100,
     deadline: '2025-07-10',
     status: 'Active',
     rewarded: false,
+    rewardedAt: '',
   },
   {
     id: 2,
+    userId: 'USR002',
+    postUrl: 'https://example.com/post2',
     title: 'Join Telegram Group',
     description: 'Join our community group for updates',
     reward: 50,
     deadline: '2025-07-05',
     status: 'Completed',
     rewarded: true,
+    rewardedAt: '2025-07-05T12:00',
   },
 ]
 
@@ -28,12 +34,15 @@ const ManageTask = () => {
   const [editingTask, setEditingTask] = useState(null)
 
   const [newTask, setNewTask] = useState({
+    userId: '',
+    postUrl: '',
     title: '',
     description: '',
     reward: '',
     deadline: '',
     status: 'Active',
     rewarded: false,
+    rewardedAt: '',
   })
 
   const handleChange = (e) => {
@@ -49,12 +58,15 @@ const ManageTask = () => {
     const id = tasks.length + 1
     setTasks([...tasks, { id, ...newTask }])
     setNewTask({
+      userId: '',
+      postUrl: '',
       title: '',
       description: '',
       reward: '',
       deadline: '',
       status: 'Active',
       rewarded: false,
+      rewardedAt: '',
     })
     setShowModal(false)
   }
@@ -68,7 +80,13 @@ const ManageTask = () => {
 
   const handleRewardToggle = (id) => {
     const updated = tasks.map((task) =>
-      task.id === id ? { ...task, rewarded: !task.rewarded } : task
+      task.id === id
+        ? {
+            ...task,
+            rewarded: !task.rewarded,
+            rewardedAt: !task.rewarded ? new Date().toISOString() : '',
+          }
+        : task
     )
     setTasks(updated)
   }
@@ -82,52 +100,50 @@ const ManageTask = () => {
     <div className="container mt-4">
       <h3 className="mb-4">Task Management</h3>
 
-      {/* Create Task Button */}
       <div className="text-end mb-3">
         <Button onClick={() => { setShowModal(true); setEditingTask(null) }}>
           <i className="bi bi-plus-circle me-2"></i>Create Task
         </Button>
       </div>
 
-      {/* Task List Table */}
       <Card className="p-3 shadow-sm">
         <h5 className="mb-3">Task List</h5>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
               <th>#</th>
+              <th>User ID</th>
               <th>Title</th>
-              <th>Reward</th>
+              <th>Amount</th>
               <th>Status</th>
               <th>Deadline</th>
+              <th>Post URL</th>
               <th>Rewarded</th>
+              <th>Rewarded At</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {tasks.length === 0 ? (
               <tr>
-                <td colSpan="7" className="text-center">No tasks available.</td>
+                <td colSpan="10" className="text-center">No tasks available.</td>
               </tr>
             ) : (
               tasks.map((task, i) => (
                 <tr key={task.id}>
                   <td>{i + 1}</td>
+                  <td>{task.userId}</td>
                   <td>{task.title}</td>
                   <td>${task.reward}</td>
                   <td>
-                    <span className={`badge bg-${task.status === 'Completed' ? 'secondary' : 'success'}`}>
+                    <span className={`badge bg-${task.status === 'Completed' ? 'success' : 'warning'}`}>
                       {task.status}
                     </span>
                   </td>
                   <td>{task.deadline}</td>
-                  <td>
-                    {task.rewarded ? (
-                      <span className="text-success">Yes</span>
-                    ) : (
-                      <span className="text-danger">No</span>
-                    )}
-                  </td>
+                  <td><a href={task.postUrl} target="_blank" rel="noopener noreferrer">Link</a></td>
+                  <td>{task.rewarded ? <span className="text-success">Yes</span> : <span className="text-danger">No</span>}</td>
+                  <td>{task.rewardedAt ? new Date(task.rewardedAt).toLocaleString() : '-'}</td>
                   <td>
                     <Button variant="info" size="sm" onClick={() => handleEdit(task)} className="me-2">
                       View / Edit
@@ -147,7 +163,6 @@ const ManageTask = () => {
         </Table>
       </Card>
 
-      {/* Create / Edit Task Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>{editingTask ? 'Edit Task' : 'Create New Task'}</Modal.Title>
@@ -155,13 +170,21 @@ const ManageTask = () => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
+              <Form.Label>User ID</Form.Label>
+              <Form.Control
+                type="text"
+                name="userId"
+                value={editingTask ? editingTask.userId : newTask.userId}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
                 name="title"
                 value={editingTask ? editingTask.title : newTask.title}
                 onChange={handleChange}
-                required
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -171,6 +194,15 @@ const ManageTask = () => {
                 name="description"
                 rows={3}
                 value={editingTask ? editingTask.description : newTask.description}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Post URL</Form.Label>
+              <Form.Control
+                type="url"
+                name="postUrl"
+                value={editingTask ? editingTask.postUrl : newTask.postUrl}
                 onChange={handleChange}
               />
             </Form.Group>
