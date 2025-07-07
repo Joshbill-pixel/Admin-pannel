@@ -57,7 +57,7 @@ const Users = () => {
             <th>Username</th>
             <th>Role</th>
             <th>Created At</th>
-            <th style={{ width: '140px' }}>Actions</th>
+            <th style={{ width: '200px' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -68,44 +68,32 @@ const Users = () => {
               </td>
             </tr>
           ) : (
-            users.map(({ id, userId, username, role, createdAt }, index) => {
-              const isSelected = editingUser?.id === id
-
-              return (
-                <tr
-                  key={id}
-                  style={{ cursor: 'pointer', backgroundColor: isSelected ? '#f0f0f0' : 'transparent' }}
-                  onClick={() => setEditingUser(users.find(u => u.id === id))}
-                >
-                  <td>{index + 1}</td>
-                  <td>{userId}</td>
-                  <td>
-                    {username}
-                    {isSelected && (
-                      <Button
-                        variant="success"
-                        size="sm"
-                        style={{ marginLeft: '10px' }}
-                        onClick={() =>
-                          navigate(`/dashboard/user-profile/${id}`, {
-                            state: { user: users.find(u => u.id === id) },
-                          })
-                        }
-                      >
-                        View Profile
-                      </Button>
-                    )}
-                  </td>
-                  <td>{role}</td>
-                  <td>{createdAt}</td>
-                  <td>
-                    <Button variant="danger" size="sm" onClick={() => handleDelete(id)}>
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              )
-            })
+            users.map(({ id, userId, username, role, createdAt }, index) => (
+              <tr key={id}>
+                <td>{index + 1}</td>
+                <td>{userId}</td>
+                <td>{username}</td>
+                <td>{role}</td>
+                <td>{createdAt}</td>
+                <td>
+                  <Button
+                    variant="success"
+                    size="sm"
+                    className="me-2"
+                    onClick={() =>
+                      navigate(`/dashboard/user-profile/${id}`, {
+                        state: { user: users.find(u => u.id === id) },
+                      })
+                    }
+                  >
+                    View Profile
+                  </Button>
+                  <Button variant="danger" size="sm" onClick={() => handleDelete(id)}>
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))
           )}
         </tbody>
       </Table>
