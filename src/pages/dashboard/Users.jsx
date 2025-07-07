@@ -3,9 +3,9 @@ import { Table, Button, Modal, Form, Row, Col, Card } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
 const initialUsers = [
-  { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'User', wallet: '', username: '', password: '', photo: '' },
-  { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Admin', wallet: '', username: '', password: '', photo: '' },
-  { id: 3, name: 'Charlie Brown', email: 'charlie@example.com', role: 'User', wallet: '', username: '', password: '', photo: '' },
+  { id: 1, username: 'alicejohnson', role: 'User', wallet: '', password: '', photo: '', createdAt: '2025-07-01T10:00' },
+  { id: 2, username: 'bobsmith', role: 'Admin', wallet: '', password: '', photo: '', createdAt: '2025-07-02T11:30' },
+  { id: 3, username: 'charliebrown', role: 'User', wallet: '', password: '', photo: '', createdAt: '2025-07-03T09:45' },
 ]
 
 const Users = () => {
@@ -33,7 +33,9 @@ const Users = () => {
     setUsers(users.map(user => user.id === editingUser.id ? editingUser : user))
     setShowModal(false)
   }
+
   const navigate = useNavigate()
+
   return (
     <div>
       <h2>User Management</h2>
@@ -51,9 +53,9 @@ const Users = () => {
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
+            <th>Username</th>
             <th>Role</th>
+            <th>Created At</th>
             <th style={{ width: '140px' }}>Actions</th>
           </tr>
         </thead>
@@ -65,7 +67,7 @@ const Users = () => {
               </td>
             </tr>
           ) : (
-            users.map(({ id, name, email, role }, index) => {
+            users.map(({ id, username, role, createdAt }, index) => {
               const isSelected = editingUser?.id === id
 
               return (
@@ -76,14 +78,12 @@ const Users = () => {
                 >
                   <td>{index + 1}</td>
                   <td>
-                    {name}
+                    {username}
                     {isSelected && (
                       <Button
                         variant="success"
                         size="sm"
-                        style={{
-                          marginLeft: '10px',
-                        }}
+                        style={{ marginLeft: '10px' }}
                         onClick={() =>
                           navigate(`/dashboard/user-profile/${id}`, {
                             state: { user: users.find(u => u.id === id) },
@@ -94,13 +94,12 @@ const Users = () => {
                       </Button>
                     )}
                   </td>
-                  <td>{email}</td>
                   <td>{role}</td>
+                  <td>{createdAt}</td>
                   <td>
-                   
-                  <Button variant="danger" size="sm" onClick={() => handleDelete(id)}>
-                    Delete
-                  </Button>
+                    <Button variant="danger" size="sm" onClick={() => handleDelete(id)}>
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               )
@@ -113,82 +112,3 @@ const Users = () => {
 }
 
 export default Users
-
-
-
-// import React, { useState } from 'react'
-// import { Table, Button } from 'react-bootstrap'
-
-// const initialUsers = [
-//   { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'User' },
-//   { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'Admin' },
-//   { id: 3, name: 'Charlie Brown', email: 'charlie@example.com', role: 'User' },
-// ]
-
-// const Users = () => {
-//   const [users, setUsers] = useState(initialUsers)
-
-//   const handleEdit = (id) => {
-//     alert(`Edit user with id: ${id}`)
-//   }
-
-//   const handleDelete = (id) => {
-//     if (window.confirm('Are you sure you want to delete this user?')) {
-//       setUsers(users.filter((user) => user.id !== id))
-//     }
-//   }
-
-//   return (
-//     <div>
-//       <h2>User Management</h2>
-//       <Table striped bordered hover responsive>
-//         <thead>
-//           <tr>
-//             <th>#</th>
-//             <th>Name</th>
-//             <th>Email</th>
-//             <th>Role</th>
-//             <th style={{ width: '140px' }}>Actions</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {users.length === 0 ? (
-//             <tr>
-//               <td colSpan="5" className="text-center">
-//                 No users found.
-//               </td>
-//             </tr>
-//           ) : (
-//             users.map(({ id, name, email, role }, index) => (
-//               <tr key={id}>
-//                 <td>{index + 1}</td>
-//                 <td>{name}</td>
-//                 <td>{email}</td>
-//                 <td>{role}</td>
-//                 <td>
-//                   <Button
-//                     variant="warning"
-//                     size="sm"
-//                     onClick={() => handleEdit(id)}
-//                     className="me-2"
-//                   >
-//                     Edit
-//                   </Button>
-//                   <Button
-//                     variant="danger"
-//                     size="sm"
-//                     onClick={() => handleDelete(id)}
-//                   >
-//                     Delete
-//                   </Button>
-//                 </td>
-//               </tr>
-//             ))
-//           )}
-//         </tbody>
-//       </Table>
-//     </div>
-//   )
-// }
-
-// export default Users
