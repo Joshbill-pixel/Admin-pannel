@@ -97,27 +97,7 @@ const Users = () => {
                   <td>{email}</td>
                   <td>{role}</td>
                   <td>
-                    {/* {isSelected && (
-                      <Button
-                        variant="info"
-                        size="sm"
-                        onClick={() =>
-                          navigate(`/dashboard/user-profile/${id}`, {
-                            state: { user: users.find(u => u.id === id) },
-                          })
-                        }
-                      >
-                        View Profile
-                      </Button>
-                    )} */}
-                    <Button
-                    variant="warning"
-                    size="sm"
-                    onClick={() => handleEdit(users.find((u) => u.id === id))}
-                    className="me-2"
-                  >
-                    Edit
-                  </Button>
+                   
                   <Button variant="danger" size="sm" onClick={() => handleDelete(id)}>
                     Delete
                   </Button>
@@ -128,90 +108,6 @@ const Users = () => {
           )}
         </tbody>
       </Table>
-
-      {/* Edit User Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit User</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {editingUser && (
-            <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="name"
-                  value={editingUser.name}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  name="email"
-                  value={editingUser.email}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Role</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="role"
-                  value={editingUser.role}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Sol Wallet Address</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="wallet"
-                  value={editingUser.wallet}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="username"
-                  value={editingUser.username}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  value={editingUser.password}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>Photo URL</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="photo"
-                  value={editingUser.photo}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-            </Form>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleSave}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   )
 }

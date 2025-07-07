@@ -1,177 +1,143 @@
 import { useLocation } from 'react-router-dom'
-import { Card, Button, Form, Row, Col } from 'react-bootstrap'
 import { useState } from 'react'
+import { Card, Button, Form, Row, Col } from 'react-bootstrap'
 
-const AdminsProfile = () => {
-  const location = useLocation()
-  const admin = location.state?.admin
+const UsersProfile = () => {
+  const { state } = useLocation()
+  const user = state?.user
 
   const [editMode, setEditMode] = useState(false)
-  const [formData, setFormData] = useState({ ...admin })
+  const [formData, setFormData] = useState({ ...user })
+  const [blacklisted, setBlacklisted] = useState(user?.isBlacklisted || false)
 
-  if (!admin) return <p>No admin data found.</p>
+  if (!user) return <p>User not found.</p>
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleEdit = () => setEditMode(true)
-
   const handleSave = () => {
-    // Here you'd send `formData` to API to save changes
-    console.log('Updated Admin:', formData)
+    console.log('Saving user changes:', formData)
     setEditMode(false)
+  }
+
+  const toggleBlacklist = () => {
+    setBlacklisted(!blacklisted)
+    setFormData({ ...formData, isBlacklisted: !blacklisted })
+  }
+
+  const handlePhotoUpload = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setFormData((prev) => ({ ...prev, photo: reader.result }))
+      }
+      reader.readAsDataURL(file)
+    }
   }
 
   return (
     <div className="container mt-4">
-      <h3 className="mb-4">Admin Profile</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3>User Profile</h3>
+        <Button variant="secondary" onClick={() => window.history.back()}>
+          <i className="bi bi-arrow-left me-1"></i> Back
+        </Button>
+      </div>
 
       <Card className="p-4 shadow-sm">
-        <Row>
-         <Col md={4}>
-            <div className="text-center">
-              <div
-                className="rounded-circle bg-light border"
-                style={{
-                  width: '130px',
-                  height: '130px',
-                  margin: '0 auto',
-                  overflow: 'hidden',
-                  position: 'relative',
-                }}
-              >
-                {formData.image ? (
-                  <img
-                    src={formData.image}
-                    alt="Admin Avatar"
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  />
-                ) : (
-                  <span className="d-block pt-5 text-muted">No Image</span>
-                )}
+        <Form>
+          <Form.Group className="mb-3">
+            <Form.Label>Photo</Form.Label>
+            <Form.Control
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoUpload}
+              disabled={!editMode}
+            />
+            {formData.photo && (
+              <div className="mt-2">
+                <img
+                  src={formData.photo}
+                  alt="Uploaded"
+                  style={{ width: '120px', height: '120px', objectFit: 'cover', borderRadius: '8px' }}
+                />
               </div>
+            )}
+          </Form.Group>
 
-              {editMode && (
-                <div className="mt-2">
-                  <Form.Group controlId="formFile" className="mt-2">
-                    <Form.Label className="small text-muted">Upload Profile Picture</Form.Label>
-                    <Form.Control
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            setFormData((prev) => ({ ...prev, image: reader.result }));
-                          };
-                          reader.readAsDataURL(file);
-                        }
-                      }}
-                    />
-                  </Form.Group>
-                </div>
-              )}
-            </div>
-            {/* <div className="text-center">
-              <h5 className="fw-bold">{formData.name}</h5>
-            </div> */}
-          </Col>
+          {Object.entries({
+            id: 'Public ID',
+            username: 'Username',
+            password: 'Password',
+            referralCode: 'Referral Code',
+            referralCount: 'Referral Count',
+            referredBy: 'Referred By',
+            referrals: 'Referrals',
+            referralBonus: 'Referral Bonus',
+            gmpEarnings: 'GMP Earnings',
+            weeklyRankBonusEarnings: 'Weekly Rank Bonus Earnings',
+            totalEarnings: 'Total Earnings',
+            gmpShares: 'GMP Shares',
+            rank: 'Rank',
+            totalStakedEarned: 'Total Staked Earned',
+            totalStaked: 'Total Staked',
+            totalDeposit: 'Total Deposit',
+            totalNetwork: 'Total Network',
+            totalTeamVolumeSOL: 'Total Team Volume (SOL)',
+            totalTeamVolumeUSD: 'Total Team Volume (USD)',
+            totalWithdrawals: 'Total Withdrawals',
+            withdrawal: 'Withdrawal',
+            solWalletAddress: 'SOL Wallet Address',
+            solPrivateKey: 'SOL Private Key',
+            isBlacklisted: 'Is Blacklisted',
+            SLX: 'SLX',
+            token: 'Token',
+            createdAt: 'Created At',
+            updatedAt: 'Updated At'
+          }).map(([key, label]) => (
+            <Form.Group className="mb-3" key={key}>
+              <Form.Label>{label}</Form.Label>
+              <Form.Control
+                name={key}
+                type={key === 'createdAt' || key === 'updatedAt' ? 'datetime-local' : 'text'}
+                value={formData[key] || ''}
+                onChange={handleChange}
+                disabled={
+                  !editMode ||
+                  key === 'solWalletAddress' ||
+                  key === 'solPrivateKey' ||
+                  key === 'id' ||
+                  key === 'username'
+                }
+              />
+            </Form.Group>
+          ))}
 
-          <Col md={8}>
-            <Form>
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3}>ID</Form.Label>
-                <Col sm={9}>
-                  <Form.Control plaintext readOnly defaultValue={formData.id} />
-                </Col>
-              </Form.Group>
-
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3}>Username</Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    name="username"
-                    type="text"
-                    value={formData.username}
-                    onChange={handleChange}
-                    disabled={!editMode}
-                  />
-                </Col>
-              </Form.Group>
-
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3}>Email</Form.Label>
-                <Col sm={9}>
-                  <Form.Control
-                    name="email"
-                    type="email"
-                    value={formData.email || ''}
-                    onChange={handleChange}
-                    disabled={!editMode}
-                  />
-                </Col>
-              </Form.Group>
-
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label column sm={3}>Role</Form.Label>
-                <Col sm={9}>
-                  <Form.Select
-                    name="role"
-                    value={formData.role}
-                    onChange={handleChange}
-                    disabled={!editMode}
-                  >
-                    <option value="Admin">Admin</option>
-                    <option value="SuperAdmin">Super Admin</option>
-                  </Form.Select>
-                </Col>
-              </Form.Group>
-
-              <div className="text-end mt-4">
-                {!editMode ? (
-                  <Button variant="primary" onClick={handleEdit}>
-                    Edit
-                  </Button>
-                ) : (
-                  <Button variant="success" onClick={handleSave}>
-                    Save
-                  </Button>
-                )}
-              </div>
-            </Form>
-          </Col>
-        </Row>
+          <div className="mt-3">
+            <Button
+              variant={blacklisted ? 'dark' : 'outline-dark'}
+              size="sm"
+              onClick={toggleBlacklist}
+              className="me-2"
+            >
+              {blacklisted ? 'Unblacklist User' : 'Blacklist User'}
+            </Button>
+            {!editMode ? (
+              <Button variant="primary" onClick={() => setEditMode(true)}>
+                Edit Profile
+              </Button>
+            ) : (
+              <Button variant="success" onClick={handleSave}>
+                Save Changes
+              </Button>
+            )}
+          </div>
+        </Form>
       </Card>
     </div>
   )
 }
 
-export default AdminsProfile
-
-// import { useLocation } from 'react-router-dom'
-// import { Card } from 'react-bootstrap'
-
-// const AdminsProfile = () => {
-//   const location = useLocation()
-//   const admin = location.state?.admin
-
-//   if (!admin) return <p>No admin data found.</p>
-
-//   return (
-//     <div className="container mt-4">
-//       <h3>Admin Profile</h3>
-//       <Card className="p-4 shadow-sm">
-//         <p><strong>ID:</strong> {admin.id}</p>
-//         <p><strong>Username:</strong> {admin.username}</p>
-//         <p><strong>Role:</strong> {admin.role}</p>
-//         <p><strong>Email:</strong> {admin.email || 'N/A'}</p>
-//         {/* Add more fields here if available */}
-//       </Card>
-//     </div>
-//   )
-// }
-
-// export default AdminsProfile
+export default UsersProfile
