@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const navigate = useNavigate()
-  const [form, setForm] = useState({ email: '', password: '' })
+  const [form, setForm] = useState({ username: '', password: '' })
   const [error, setError] = useState('')
 
   const handleChange = (e) => {
@@ -14,8 +14,8 @@ const Login = () => {
     e.preventDefault()
 
     // Simple validation and fake auth (replace with real backend logic)
-    if (!form.email || !form.password) {
-      setError('Please enter email and password.')
+    if (!form.username || !form.password) {
+      setError('Please enter username and password.')
       return
     }else {
       alert('Login successful! Redirecting to Dashboard.')
@@ -36,15 +36,15 @@ const Login = () => {
       {error && <div className="alert alert-danger">{error}</div>}
       <form onSubmit={handleSubmit} noValidate>
         <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email address
+          <label htmlFor="username" className="form-label">
+            Username
           </label>
           <input
-            type="email"
+            type="text"
             className="form-control"
-            id="email"
-            name="email"
-            value={form.email}
+            id="username"
+            name="username"
+            value={form.username}
             onChange={handleChange}
           />
         </div>
