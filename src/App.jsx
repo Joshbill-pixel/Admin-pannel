@@ -1,6 +1,4 @@
-import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Signup from './pages/Signup'
 import Login from './pages/Login'
 import DashboardLayout from './layouts/DashboardLayout'
 import Home from './pages/dashboard/Home'
@@ -25,7 +23,6 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
 
       <Route path="/dashboard" element={<DashboardLayout />}>
